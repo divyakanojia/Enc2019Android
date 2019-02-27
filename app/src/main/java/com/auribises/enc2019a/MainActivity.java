@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 /*
@@ -111,4 +113,53 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Explicit Menu Creation
+        /*menu.add(1, 101, 0, "All Songs");
+        menu.add(1, 201, 0, "Favourites");
+        menu.add(1, 301, 0, "Recently Played");
+        menu.add(2, 401, 0, "Artists");
+        menu.add(2, 501, 0, "PlayLists");*/
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        /*
+        if(itemId == 101){
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }else if(itemId == 201){
+
+        }else if(itemId == 301){
+
+        }else if(itemId == 401){
+
+        }else {
+
+        }*/
+
+        if(itemId == R.id.cnn){
+
+        }else if(itemId == R.id.ndtv){
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }else if(itemId == R.id.aaj){
+
+        }else if(itemId == R.id.zee){
+
+        }else {
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
