@@ -31,13 +31,49 @@ public class ActivityOne extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
 
-        String name = eTxtName.getText().toString();
-        String phone = eTxtPhone.getText().toString();
+        //Person person = new Person();
+
+        //String name = eTxtName.getText().toString();
+        //String phone = eTxtPhone.getText().toString();
+
+        //person.name = eTxtName.getText().toString();
+        //person.phone = eTxtPhone.getText().toString();
+
+        //Intent intent = new Intent(ActivityOne.this, ActivityTwo.class);
+
+        // Sending Data from ActivityOne to ActivityTwo using Intent
+        //intent.putExtra("keyName",name);
+        //intent.putExtra("keyPhone",phone);
+
+
+        // Sending Data from ActivityOne to ActivityTwo using Bundle
+        /*Bundle bundle = new Bundle();
+        bundle.putString("keyName",name);
+        bundle.putString("keyPhone",phone);
+        bundle.putInt("keyAge",30);
+
+        intent.putExtra("keyBundle",bundle);*/
+
+
+        // Sending Data from ActivityOne to ActivityTwo using User Defined Object
+        //intent.putExtra("keyPerson",person);
+
+
+        //Intent intent = new Intent(ActivityOne.this, ActivityTwo.class);
+        //startActivity(intent);
 
         Intent intent = new Intent(ActivityOne.this, ActivityTwo.class);
-        // Sending Data from ActivityOne to ActivityTwo using Intent
-        intent.putExtra("keyName",name);
-        intent.putExtra("keyPhone",phone);
-        startActivity(intent);
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 101 && resultCode == 201){
+            String name = data.getStringExtra("keyName");
+            String phone = data.getStringExtra("keyPhone");
+
+            eTxtName.setText(name);
+            eTxtPhone.setText(phone);
+        }
     }
 }
