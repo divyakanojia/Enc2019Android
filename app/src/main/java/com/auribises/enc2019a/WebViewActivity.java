@@ -1,5 +1,6 @@
 package com.auribises.enc2019a;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -12,8 +13,14 @@ public class WebViewActivity extends AppCompatActivity {
 
     void initViews(){
 
+        Intent rcv = getIntent();
+        News news = (News)rcv.getSerializableExtra("keyNews");
+
+
+
         //getSupportActionBar().setTitle("Amazon");
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
+        getSupportActionBar().setTitle(news.title);
 
         webView = findViewById(R.id.webView);
 
@@ -25,7 +32,8 @@ public class WebViewActivity extends AppCompatActivity {
 
         //webView.loadUrl("https://www.google.co.in");
         //webView.loadUrl("https://www.amazon.in/");
-        webView.loadUrl("https://www.ndtv.com/");
+        //webView.loadUrl("https://www.ndtv.com/");
+        webView.loadUrl(news.url);
     }
 
     @Override

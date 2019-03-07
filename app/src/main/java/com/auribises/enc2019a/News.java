@@ -1,6 +1,8 @@
 package com.auribises.enc2019a;
 
-public class News {
+import java.io.Serializable;
+
+public class News implements Serializable{
 
     // Attributes
     public int image;
