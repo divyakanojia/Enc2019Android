@@ -23,7 +23,7 @@
         <activity android:name=".ActivityTwo" />
         <activity android:name=".LayoutsActivity" />
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".ListViewActivity"></activity>
+        <activity android:name=".ListViewActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AllNewsActivity"></activity>
+        <activity android:name=".AllNewsActivity" />
+        <activity android:name=".ViewsActivity"></activity>
     </application>
 
 </manifest>
