@@ -32,7 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AllNewsActivity" />
-        <activity android:name=".ViewsActivity"></activity>
+        <activity android:name=".ViewsActivity" />
+        <activity android:name=".TTSActivity"></activity>
     </application>
 
 </manifest>
