@@ -17,6 +17,7 @@ public class TTSActivity extends AppCompatActivity implements View.OnClickListen
     TextToSpeech tts;
 
     void initViews(){
+
         eTxtData = findViewById(R.id.editTextData);
         btnSpeak = findViewById(R.id.buttonSpeak);
         btnSpeak.setOnClickListener(this);
