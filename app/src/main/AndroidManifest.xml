@@ -37,7 +37,8 @@
         <activity android:name=".ViewsActivity" />
         <activity android:name=".TTSActivity" />
         <activity android:name=".AllSongsActivity" />
-        <activity android:name=".PlayMusicActivity"></activity>
+        <activity android:name=".PlayMusicActivity" />
+        <activity android:name=".MyFragmentsActivity"></activity>
     </application>
 
 </manifest>
