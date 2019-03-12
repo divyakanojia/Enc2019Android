@@ -3,9 +3,8 @@
     package="com.auribises.enc2019a">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -37,7 +36,8 @@
         <activity android:name=".AllNewsActivity" />
         <activity android:name=".ViewsActivity" />
         <activity android:name=".TTSActivity" />
-        <activity android:name=".AllSongsActivity"></activity>
+        <activity android:name=".AllSongsActivity" />
+        <activity android:name=".PlayMusicActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.auribises.enc2019a;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ public class AllSongsActivity extends AppCompatActivity implements AdapterView.O
     String path;
 
 
-
     void initViews(){
 
         listView = findViewById(R.id.listView);
@@ -33,16 +33,21 @@ public class AllSongsActivity extends AppCompatActivity implements AdapterView.O
         adapter.add("Song5.mp3");
         */
 
+        // Path to SD-Card (Built In SD-Card)
         path = Environment.getExternalStorageDirectory().getPath();
         File file = new File(path);
 
         // file.list() will give us the names of all the files and folders in the path specified
         String[] files = file.list();
 
-        for(String s : files){
-            if(s.endsWith(".mp3")) {
-                adapter.add(s);
+        if(files != null) {
+            for (String s : files) {
+                if (s.endsWith(".mp3")) {
+                    adapter.add(s);
+                }
             }
+        }else{
+            Toast.makeText(this,"No Files Found",Toast.LENGTH_LONG).show();
         }
 
         listView.setAdapter(adapter);
@@ -60,5 +65,10 @@ public class AllSongsActivity extends AppCompatActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String songToPlay = adapter.getItem(position);
         Toast.makeText(this,"You Selected "+songToPlay,Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(AllSongsActivity.this, PlayMusicActivity.class);
+        intent.putExtra("keySong",songToPlay);
+        startActivity(intent);
+
     }
 }
