@@ -16,6 +16,8 @@ public class MyFragmentsActivity extends AppCompatActivity {
         upperFragment = new UpperFragment();
         lowerFragment = new LowerFragment();
 
+        lowerFragment.registerMyListener(upperFragment);
+
         // FragmentManager will help to manage fragments in Activity
         // eg: to add/delete/update fragment in Activity
         fragmentManager = getSupportFragmentManager();

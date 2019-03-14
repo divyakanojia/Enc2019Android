@@ -6,21 +6,31 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LowerFragment extends Fragment {
+public class LowerFragment extends Fragment implements AdapterView.OnItemClickListener{
 
 
     ListView listView;
     ArrayAdapter<String> adapter;
 
+    // Declare Reference Variable of MyListener
+    MyListener myListener;
+
     public LowerFragment() {
         // Required empty public constructor
+    }
+
+    public void registerMyListener(UpperFragment upperFragment){
+        myListener = upperFragment; // RTP Statement
+        // myListener Ref Variable is pointing to object of UpperFragment
     }
 
 
@@ -40,8 +50,14 @@ public class LowerFragment extends Fragment {
         adapter.add("PTC");         //n-1
 
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
         return view;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(),"You Clicked on "+position,Toast.LENGTH_LONG).show();
+        myListener.newsHandler(position); // Execution of Method
+    }
 }
