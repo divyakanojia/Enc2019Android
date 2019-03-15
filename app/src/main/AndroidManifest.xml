@@ -38,7 +38,14 @@
         <activity android:name=".TTSActivity" />
         <activity android:name=".AllSongsActivity" />
         <activity android:name=".PlayMusicActivity" />
-        <activity android:name=".MyFragmentsActivity"></activity>
+        <activity android:name=".MyFragmentsActivity" />
+        <activity
+            android:name=".MyTabsActivity"
+            android:label="@string/title_activity_my_tabs"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MyBottomNavActivity"
+            android:label="@string/title_activity_my_bottom_nav"></activity>
     </application>
 
 </manifest>
