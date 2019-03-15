@@ -45,7 +45,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MyBottomNavActivity"
-            android:label="@string/title_activity_my_bottom_nav"></activity>
+            android:label="@string/title_activity_my_bottom_nav" />
+        <activity
+            android:name=".MyNavigationActivity"
+            android:label="@string/title_activity_my_navigation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
