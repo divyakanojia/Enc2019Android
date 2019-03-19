@@ -1,5 +1,6 @@
 package com.auribises.enc2019a;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,12 +29,18 @@ public class BooksActivity extends AppCompatActivity {
 
     BooksAdapter adapter;
 
+    ProgressDialog progressDialog;
+
     void initViews(){
         listView = findViewById(R.id.listView);
         webServiceUrl = "http://www.json-generator.com/api/json/get/chQLxhBjaW?indent=2";
 
         //thread = new BookFetchThread();
         //thread.start();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
 
         task = new BookFetchTask();
         task.execute();
@@ -62,7 +69,7 @@ public class BooksActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-
+            progressDialog.show();
         }
 
         @Override
@@ -91,6 +98,8 @@ public class BooksActivity extends AppCompatActivity {
 
                 adapter = new BooksAdapter(BooksActivity.this,R.layout.book_list_item,bookList);
                 listView.setAdapter(adapter);
+
+                progressDialog.dismiss();
 
             }catch (Exception e){
                 e.printStackTrace();
