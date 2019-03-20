@@ -50,7 +50,15 @@
             android:name=".MyNavigationActivity"
             android:label="@string/title_activity_my_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".BooksActivity"></activity>
+        <activity android:name=".BooksActivity" />
+
+        <service
+            android:name=".MyBookService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".MyIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
