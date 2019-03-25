@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,6 +29,11 @@ public class SpeechRecognitionActivity extends AppCompatActivity implements Reco
     void initViews(){
         txtData = findViewById(R.id.textViewData);
         btnSpeak = findViewById(R.id.buttonSpeak);
+
+        //Animation animation = AnimationUtils.loadAnimation(this,R.anim.alpha_anim);
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.rotate_anim);
+        btnSpeak.startAnimation(animation);
+        // scale and translate | HW
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Listening...");
