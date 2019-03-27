@@ -85,7 +85,14 @@
         <activity android:name=".DialogsActivity" />
         <activity android:name=".SpeechRecognitionActivity" />
         <activity android:name=".SensorActivity" />
-        <activity android:name=".PersistanceActivity"></activity>
+        <activity android:name=".PersistanceActivity" />
+        <activity android:name=".ui.AddCustomerActivity" />
+
+        <provider
+            android:name=".provider.MyContentProvider"
+            android:authorities="com.auribises.enc2019a.mycp"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

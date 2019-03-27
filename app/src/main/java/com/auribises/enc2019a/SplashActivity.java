@@ -6,6 +6,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.auribises.enc2019a.ui.AddCustomerActivity;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -23,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what == 101){
-                Intent intent = new Intent(SplashActivity.this, PersistanceActivity.class);
+                Intent intent = new Intent(SplashActivity.this, AddCustomerActivity.class);
                 startActivity(intent);
                 finish();
             }
