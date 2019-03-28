@@ -92,7 +92,9 @@
             android:name=".provider.MyContentProvider"
             android:authorities="com.auribises.enc2019a.mycp"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
+
+        <activity android:name=".ui.AllCustomersActivity"></activity>
     </application>
 
 </manifest>
