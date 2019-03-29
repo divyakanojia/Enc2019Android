@@ -18,4 +18,10 @@ public class Customer {
         this.phone = phone;
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        String message = "Name: "+name+"\nPhone: "+phone+"\nEmail: "+email;
+        return message;
+    }
 }

@@ -1,7 +1,9 @@
 package com.auribises.enc2019a.ui;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,9 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
     ArrayList<Customer> customers;
 
     CustomersAdapter customersAdapter;
+
+    int position;
+    Customer customer;
 
     void initViews(){
         resolver = getContentResolver();
@@ -73,8 +78,56 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
 
     }
 
+    void showCustomerDetails(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(customer.name+" Details:");
+        builder.setMessage(customer.toString());
+        builder.setPositiveButton("Done",null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    void showOptions(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String[] items = {"View "+customer.name, "Update "+customer.name, "Delete "+customer.name, "Cancel"};
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                switch (which){
+                    case 0:
+                        showCustomerDetails();
+                        break;
+
+                    case 1:
+
+                        break;
+
+                    case 2:
+
+                        break;
+
+                    case 3:
+
+                        break;
+                }
+
+            }
+        });
+
+        //builder.setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this,"You Clicked on Position:"+position,Toast.LENGTH_LONG).show();
+        this.position = position;
+        customer = customers.get(position);
+        //Toast.makeText(this,"You Clicked on Position:"+position,Toast.LENGTH_LONG).show();
+        showOptions();
     }
 }
