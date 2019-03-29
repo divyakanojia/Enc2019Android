@@ -89,6 +89,33 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
 
     }
 
+    void deleteCustomerFromDB(){
+        String where = Util.COL_ID+" = "+customer.id;
+        int i = resolver.delete(Util.CUSTOMER_URI,where,null);
+        if(i>0){
+            Toast.makeText(this,"Deletion Finished",Toast.LENGTH_LONG).show();
+            customers.remove(position);
+            customersAdapter.notifyDataSetChanged(); // Refresh Your RecyclerView
+        }else{
+            Toast.makeText(this,"Deletion Failed",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    void askForDeletion(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete "+customer.name);
+        builder.setMessage("Are You Sure ?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCustomerFromDB();
+            }
+        });
+        builder.setNegativeButton("Cancel",null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     void showOptions(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String[] items = {"View "+customer.name, "Update "+customer.name, "Delete "+customer.name, "Cancel"};
@@ -110,12 +137,9 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
                         break;
 
                     case 2:
-
+                        askForDeletion();
                         break;
 
-                    case 3:
-
-                        break;
                 }
 
             }
