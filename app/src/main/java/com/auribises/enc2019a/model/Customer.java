@@ -1,7 +1,9 @@
 package com.auribises.enc2019a.model;
 
+import java.io.Serializable;
+
 // MODEL OR BEAN OR POJO
-public class Customer {
+public class Customer implements Serializable{
 
     public int id;
     public String name;

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +26,8 @@ public class AddCustomerActivity extends AppCompatActivity {
     Customer customer;
 
     ContentResolver resolver;
+
+    boolean updateMode;
 
     void initViews(){
 
@@ -49,6 +52,17 @@ public class AddCustomerActivity extends AppCompatActivity {
         });
 
 
+        Intent rcv = getIntent();
+        updateMode = rcv.hasExtra("keyCustomer");
+
+        if(updateMode){
+            customer = (Customer) rcv.getSerializableExtra("keyCustomer");
+            eTxtName.setText(customer.name);
+            eTxtPhone.setText(customer.phone);
+            eTxtEmail.setText(customer.email);
+            btnSubmit.setText("Update Customer");
+        }
+
     }
 
     void addCustomerInDB(){
@@ -58,10 +72,26 @@ public class AddCustomerActivity extends AppCompatActivity {
         values.put(Util.COL_PHONE,customer.phone);
         values.put(Util.COL_EMAIL,customer.email);
 
-        Uri uri = resolver.insert(Util.CUSTOMER_URI, values);
-        Toast.makeText(this,customer.name+" Added in Database: "+uri.getLastPathSegment(),Toast.LENGTH_LONG).show();
+        if(updateMode){
 
-        clearFields();
+            String where = Util.COL_ID+" = "+customer.id;
+            int i = resolver.update(Util.CUSTOMER_URI,values,where,null);
+            if(i>0){
+                Toast.makeText(this,"Updation Finished",Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(this,"Updation Failed",Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            Uri uri = resolver.insert(Util.CUSTOMER_URI, values);
+            Toast.makeText(this,customer.name+" Added in Database: "+uri.getLastPathSegment(),Toast.LENGTH_LONG).show();
+
+            clearFields();
+        }
+
+
+
     }
 
     @Override

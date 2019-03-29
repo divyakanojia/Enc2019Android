@@ -2,6 +2,7 @@ package com.auribises.enc2019a.ui;
 
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -101,6 +102,10 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
                         break;
 
                     case 1:
+
+                        Intent intent = new Intent(AllCustomersActivity.this, AddCustomerActivity.class);
+                        intent.putExtra("keyCustomer",customer);
+                        startActivity(intent);
 
                         break;
 
