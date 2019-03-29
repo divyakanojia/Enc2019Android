@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.auribises.enc2019a.R;
+import com.auribises.enc2019a.listener.OnRecyclerItemClickListener;
 import com.auribises.enc2019a.model.Customer;
 
 import java.util.ArrayList;
@@ -19,6 +20,12 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
     Context context;
     int resource;
     ArrayList<Customer> objects;
+
+    OnRecyclerItemClickListener recyclerItemClickListener;
+
+    public void setOnRecyclerItemClickListener(OnRecyclerItemClickListener recyclerItemClickListener){
+        this.recyclerItemClickListener = recyclerItemClickListener;
+    }
 
     public CustomersAdapter(Context context, int resource, ArrayList<Customer> objects) {
         this.context = context;
@@ -31,7 +38,14 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
     public CustomersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(resource,parent,false);
-        CustomersAdapter.ViewHolder holder = new CustomersAdapter.ViewHolder(view);
+        final CustomersAdapter.ViewHolder holder = new CustomersAdapter.ViewHolder(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerItemClickListener.onItemClick(holder.getAdapterPosition());
+            }
+        });
 
         return holder;
     }

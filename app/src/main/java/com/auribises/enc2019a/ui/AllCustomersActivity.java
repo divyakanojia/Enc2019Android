@@ -7,15 +7,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.auribises.enc2019a.R;
 import com.auribises.enc2019a.adapter.CustomersAdapter;
+import com.auribises.enc2019a.listener.OnRecyclerItemClickListener;
 import com.auribises.enc2019a.model.Customer;
 import com.auribises.enc2019a.model.Util;
 
 import java.util.ArrayList;
 
-public class AllCustomersActivity extends AppCompatActivity {
+public class AllCustomersActivity extends AppCompatActivity implements OnRecyclerItemClickListener{
 
     ContentResolver resolver;
     RecyclerView recyclerView;
@@ -61,10 +63,18 @@ public class AllCustomersActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Total Customers: "+customers.size());
 
             customersAdapter = new CustomersAdapter(this,R.layout.list_item,customers);
+
+            customersAdapter.setOnRecyclerItemClickListener(this);
+
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(customersAdapter);
         }
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this,"You Clicked on Position:"+position,Toast.LENGTH_LONG).show();
     }
 }
