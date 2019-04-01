@@ -94,7 +94,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.AllCustomersActivity"></activity>
+        <activity android:name=".ui.AllCustomersActivity" />
+        <activity android:name=".ui.RegistrationActivity"></activity>
     </application>
 
 </manifest>

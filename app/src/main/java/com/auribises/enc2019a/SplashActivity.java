@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.auribises.enc2019a.ui.AddCustomerActivity;
+import com.auribises.enc2019a.ui.RegistrationActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what == 101){
-                Intent intent = new Intent(SplashActivity.this, AddCustomerActivity.class);
+                Intent intent = new Intent(SplashActivity.this, RegistrationActivity.class);
                 startActivity(intent);
                 finish();
             }
