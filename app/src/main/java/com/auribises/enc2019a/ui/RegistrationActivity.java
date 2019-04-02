@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -30,6 +32,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     // To Access FirebaseAuth WebService
     FirebaseAuth auth;
+    FirebaseFirestore db;
 
     ProgressDialog progressDialog;
 
@@ -51,6 +54,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         user = new User();
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -74,7 +78,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
             registerUser();
         }else{
-
+            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -87,16 +92,38 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isComplete()){
-                            Toast.makeText(RegistrationActivity.this,user.name+ "Registered Sucessfully", Toast.LENGTH_LONG).show();
+                            /*Toast.makeText(RegistrationActivity.this,user.name+ "Registered Sucessfully", Toast.LENGTH_LONG).show();
                             progressDialog.dismiss();
 
                             Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
                             startActivity(intent);
-                            finish();
+                            finish();*/
+
+                            saveUserInCloudDB();
 
                         }
                     }
                 });
+
+    }
+
+    void saveUserInCloudDB(){
+
+        db.collection("users").add(user)
+        .addOnCompleteListener(this, new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if(task.isComplete()){
+                     Toast.makeText(RegistrationActivity.this,user.name+ "Registered Sucessfully", Toast.LENGTH_LONG).show();
+                     progressDialog.dismiss();
+
+                     Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
+                     startActivity(intent);
+                     finish();
+
+                }
+            }
+        });
 
     }
 
