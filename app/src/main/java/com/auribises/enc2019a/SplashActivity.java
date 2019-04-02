@@ -8,8 +8,13 @@ import android.os.Bundle;
 
 import com.auribises.enc2019a.ui.AddCustomerActivity;
 import com.auribises.enc2019a.ui.RegistrationActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends AppCompatActivity {
+
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +23,16 @@ public class SplashActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        handler.sendEmptyMessageDelayed(101, 3000);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if(user==null){
+            handler.sendEmptyMessageDelayed(101, 3000);
+        }else{
+            handler.sendEmptyMessageDelayed(201, 3000);
+        }
+
+
     }
 
 
@@ -27,6 +41,10 @@ public class SplashActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             if(msg.what == 101){
                 Intent intent = new Intent(SplashActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             }

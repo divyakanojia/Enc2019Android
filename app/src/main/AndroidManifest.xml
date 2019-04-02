@@ -95,7 +95,8 @@
             android:exported="true" />
 
         <activity android:name=".ui.AllCustomersActivity" />
-        <activity android:name=".ui.RegistrationActivity"></activity>
+        <activity android:name=".ui.RegistrationActivity" />
+        <activity android:name=".ui.LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.auribises.enc2019a.HomeActivity;
 import com.auribises.enc2019a.R;
@@ -19,36 +18,30 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    EditText eTxtName, eTxtEmail, eTxtPassword;
-    TextView txtLogin;
+    EditText eTxtEmail, eTxtPassword;
 
-    Button btnRegister;
+    Button btnLogin;
 
     User user;
 
-    // To Access FirebaseAuth WebService
-    FirebaseAuth auth;
-
     ProgressDialog progressDialog;
 
+    FirebaseAuth auth;
 
     void initViews(){
-        eTxtName = findViewById(R.id.editTextName);
         eTxtEmail = findViewById(R.id.editTextEmail);
         eTxtPassword = findViewById(R.id.editTextPassword);
-        btnRegister = findViewById(R.id.buttonRegister);
-        txtLogin = findViewById(R.id.textViewLogin);
+        btnLogin = findViewById(R.id.buttonLogin);
 
-        btnRegister.setOnClickListener(this);
-        txtLogin.setOnClickListener(this);
+        user = new User();
+
+        btnLogin.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait..");
         progressDialog.setCancelable(false);
-
-        user = new User();
 
         auth = FirebaseAuth.getInstance();
     }
@@ -56,49 +49,33 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_login);
         initViews();
     }
 
     @Override
     public void onClick(View v) {
-
-        int id = v.getId();
-
-        if(id == R.id.buttonRegister) {
-
-            //Get the data from UI and put it into User Object
-            user.name = eTxtName.getText().toString();
-            user.email = eTxtEmail.getText().toString();
-            user.password = eTxtPassword.getText().toString();
-
-            registerUser();
-        }else{
-
-        }
+        user.email = eTxtEmail.getText().toString();
+        user.password = eTxtPassword.getText().toString();
+        loginUser();
     }
 
-    void registerUser(){
+    void loginUser(){
 
         progressDialog.show();
 
-        auth.createUserWithEmailAndPassword(user.email, user.password)
+        auth.signInWithEmailAndPassword(user.email, user.password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isComplete()){
-                            Toast.makeText(RegistrationActivity.this,user.name+ "Registered Sucessfully", Toast.LENGTH_LONG).show();
-                            progressDialog.dismiss();
-
-                            Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish();
-
                         }
                     }
                 });
 
     }
-
 
 }
