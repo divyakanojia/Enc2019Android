@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,12 @@ import android.widget.Toast;
 import com.auribises.enc2019a.R;
 import com.auribises.enc2019a.model.Customer;
 import com.auribises.enc2019a.model.Util;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddCustomerActivity extends AppCompatActivity {
 
@@ -29,9 +36,18 @@ public class AddCustomerActivity extends AppCompatActivity {
 
     boolean updateMode;
 
+    FirebaseUser firebaseUser;
+    FirebaseAuth auth;
+    FirebaseFirestore db;
+
+
     void initViews(){
 
         resolver = getContentResolver();
+
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        firebaseUser = auth.getCurrentUser();
 
         eTxtName = findViewById(R.id.editTextName);
         eTxtPhone = findViewById(R.id.editTextPhone);
@@ -47,7 +63,13 @@ public class AddCustomerActivity extends AppCompatActivity {
                 customer.phone = eTxtPhone.getText().toString();
                 customer.email = eTxtEmail.getText().toString();
 
-                addCustomerInDB();
+                //addCustomerInDB();
+                if(Util.isInternetConnected(AddCustomerActivity.this)) {
+                    saveCustomerInCloudDB();
+                }else{
+                    // give message
+                }
+
             }
         });
 
@@ -89,8 +111,21 @@ public class AddCustomerActivity extends AppCompatActivity {
 
             clearFields();
         }
+    }
 
+    void saveCustomerInCloudDB(){
 
+        db.collection("users").document(firebaseUser.getUid())
+                .collection("customers").add(customer)
+                .addOnCompleteListener(this, new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if(task.isComplete()){
+                            Toast.makeText(AddCustomerActivity.this,"Customer Saved in DB",Toast.LENGTH_LONG).show();
+                            clearFields();
+                        }
+                    }
+                });
 
     }
 

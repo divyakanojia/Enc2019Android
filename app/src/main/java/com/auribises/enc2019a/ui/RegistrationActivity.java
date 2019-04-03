@@ -14,10 +14,12 @@ import android.widget.Toast;
 import com.auribises.enc2019a.HomeActivity;
 import com.auribises.enc2019a.R;
 import com.auribises.enc2019a.model.User;
+import com.auribises.enc2019a.model.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,6 +37,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     FirebaseFirestore db;
 
     ProgressDialog progressDialog;
+
+    FirebaseUser firebaseUser;
 
 
     void initViews(){
@@ -76,7 +80,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             user.email = eTxtEmail.getText().toString();
             user.password = eTxtPassword.getText().toString();
 
-            registerUser();
+            if(Util.isInternetConnected(this)) {
+                registerUser();
+            }else{
+                Toast.makeText(this,"Please Connect to Internet and Try Again",Toast.LENGTH_LONG).show();
+            }
         }else{
             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -99,6 +107,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             startActivity(intent);
                             finish();*/
 
+
+
                             saveUserInCloudDB();
 
                         }
@@ -109,7 +119,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     void saveUserInCloudDB(){
 
-        db.collection("users").add(user)
+        /*db.collection("users").add(user)
         .addOnCompleteListener(this, new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -122,6 +132,20 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                      finish();
 
                 }
+            }
+        });*/
+
+        firebaseUser = auth.getCurrentUser();
+        db.collection("users").document(firebaseUser.getUid()).set(user)
+        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(RegistrationActivity.this,user.name+ "Registered Sucessfully", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+
+                Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
