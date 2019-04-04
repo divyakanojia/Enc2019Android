@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +18,16 @@ import com.auribises.enc2019a.adapter.CustomersAdapter;
 import com.auribises.enc2019a.listener.OnRecyclerItemClickListener;
 import com.auribises.enc2019a.model.Customer;
 import com.auribises.enc2019a.model.Util;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AllCustomersActivity extends AppCompatActivity implements OnRecyclerItemClickListener{
 
@@ -32,9 +41,19 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
     int position;
     Customer customer;
 
+
+    FirebaseAuth auth;
+    FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+
     void initViews(){
         resolver = getContentResolver();
         recyclerView = findViewById(R.id.recyclerView);
+
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        firebaseUser = auth.getCurrentUser();
+
 
     }
 
@@ -43,7 +62,51 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_customers);
         initViews();
-        fetchCustomersFromDB();
+        //fetchCustomersFromDB();
+
+        if(Util.isInternetConnected(this)) {
+            fetchCustomersFromCloudDB();
+        }else{
+            Toast.makeText(AllCustomersActivity.this,"Please Connect to Internet and Try Again",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    void fetchCustomersFromCloudDB(){
+
+        db.collection("users").document(firebaseUser.getUid())
+                .collection("customers").get()
+                .addOnCompleteListener(this, new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isComplete()){
+
+                            customers = new ArrayList<>();
+
+                            QuerySnapshot querySnapshot = task.getResult();
+                            List<DocumentSnapshot> documentSnapshots = querySnapshot.getDocuments();
+
+                            for(DocumentSnapshot snapshot : documentSnapshots){
+                                Customer customer = snapshot.toObject(Customer.class);
+                                customers.add(customer);
+                            }
+
+                            getSupportActionBar().setTitle("Total Customers: "+customers.size());
+
+                            customersAdapter = new CustomersAdapter(AllCustomersActivity.this,R.layout.list_item,customers);
+
+                            customersAdapter.setOnRecyclerItemClickListener(AllCustomersActivity.this);
+
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AllCustomersActivity.this);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            recyclerView.setAdapter(customersAdapter);
+
+                        }else{
+                            Toast.makeText(AllCustomersActivity.this,"Some Error",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
     }
 
     void fetchCustomersFromDB(){
