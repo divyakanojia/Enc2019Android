@@ -166,6 +166,24 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
         }
     }
 
+    void deleteCustomerFromCloudDB(){
+        db.collection("users").document(firebaseUser.getUid())
+                .collection("customers").document(customer.docId)
+                .delete()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isComplete()){
+                            Toast.makeText(AllCustomersActivity.this,"Deletion Finished",Toast.LENGTH_LONG).show();
+                            customers.remove(position);
+                            customersAdapter.notifyDataSetChanged(); // Refresh Your RecyclerView
+                        }else{
+                            Toast.makeText(AllCustomersActivity.this,"Deletion Failed",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
     void askForDeletion(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete "+customer.name);
@@ -173,7 +191,8 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteCustomerFromDB();
+                //deleteCustomerFromDB();
+                deleteCustomerFromCloudDB();
             }
         });
         builder.setNegativeButton("Cancel",null);
