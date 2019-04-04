@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class Customer implements Serializable{
 
     public int id;
+    public String docId;
     public String name;
     public String phone;
     public String email;
@@ -20,6 +21,15 @@ public class Customer implements Serializable{
         this.phone = phone;
         this.email = email;
     }
+
+    public Customer(int id, String docId, String name, String phone, String email) {
+        this.id = id;
+        this.docId = docId;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
 
     @Override
     public String toString() {

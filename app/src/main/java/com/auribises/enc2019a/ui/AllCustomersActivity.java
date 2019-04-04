@@ -86,7 +86,9 @@ public class AllCustomersActivity extends AppCompatActivity implements OnRecycle
                             List<DocumentSnapshot> documentSnapshots = querySnapshot.getDocuments();
 
                             for(DocumentSnapshot snapshot : documentSnapshots){
+                                String docId = snapshot.getId();
                                 Customer customer = snapshot.toObject(Customer.class);
+                                customer.docId = docId;
                                 customers.add(customer);
                             }
 
