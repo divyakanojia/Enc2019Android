@@ -115,17 +115,37 @@ public class AddCustomerActivity extends AppCompatActivity {
 
     void saveCustomerInCloudDB(){
 
-        db.collection("users").document(firebaseUser.getUid())
-                .collection("customers").add(customer)
-                .addOnCompleteListener(this, new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if(task.isComplete()){
-                            Toast.makeText(AddCustomerActivity.this,"Customer Saved in DB",Toast.LENGTH_LONG).show();
-                            clearFields();
+        if(updateMode){
+
+            db.collection("users").document(firebaseUser.getUid())
+                    .collection("customers").document(customer.docId)
+                    .set(customer)
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isComplete()){
+                                Toast.makeText(AddCustomerActivity.this,"Updation Finished",Toast.LENGTH_LONG).show();
+                                finish();
+                            }else{
+                                Toast.makeText(AddCustomerActivity.this,"Updation Failed",Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+
+        }else {
+
+            db.collection("users").document(firebaseUser.getUid())
+                    .collection("customers").add(customer)
+                    .addOnCompleteListener(this, new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            if (task.isComplete()) {
+                                Toast.makeText(AddCustomerActivity.this, "Customer Saved in DB", Toast.LENGTH_LONG).show();
+                                clearFields();
+                            }
+                        }
+                    });
+        }
 
     }
 
