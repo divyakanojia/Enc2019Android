@@ -26,12 +26,15 @@ public class SplashActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+        /*
         if(user==null){
             handler.sendEmptyMessageDelayed(101, 3000);
         }else{
             handler.sendEmptyMessageDelayed(201, 3000);
-        }
+        }*/
 
+
+        handler.sendEmptyMessageDelayed(101, 3000);
 
     }
 
@@ -39,7 +42,14 @@ public class SplashActivity extends AppCompatActivity {
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+
             if(msg.what == 101){
+                Intent intent = new Intent(SplashActivity.this, NotificationActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            /*if(msg.what == 101){
                 Intent intent = new Intent(SplashActivity.this, RegistrationActivity.class);
                 startActivity(intent);
                 finish();
@@ -47,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
-            }
+            }*/
         }
     };
 
