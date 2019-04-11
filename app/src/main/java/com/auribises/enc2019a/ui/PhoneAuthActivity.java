@@ -1,12 +1,15 @@
 package com.auribises.enc2019a.ui;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.auribises.enc2019a.HomeActivity;
 import com.auribises.enc2019a.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,6 +34,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
     @BindView(R.id.buttonVerify)
     Button btnVerify;
 
+    // Send OTP and verify if OTP has been received on Device or not
     PhoneAuthProvider authProvider;
     FirebaseAuth auth;
 
@@ -49,25 +53,32 @@ public class PhoneAuthActivity extends AppCompatActivity {
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             String phone = eTxtPhone.getText().toString().trim();
 
             authProvider.verifyPhoneNumber(
                     phone,
                     60,
                     TimeUnit.SECONDS,
-                    PhoneAuthActivity.this, callbacks);
+                    PhoneAuthActivity.this,
+                    callbacks);
         }
     };
 
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+            // You can fetch OTP and can validate by asking from user in other EditText in case
+            String otp = phoneAuthCredential.getSmsCode();
+
             signInUser(phoneAuthCredential);
+
         }
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-
+            Toast.makeText(PhoneAuthActivity.this,"OTP Verification Failed"+e.getMessage(),Toast.LENGTH_LONG).show();
         }
     };
 
@@ -78,6 +89,9 @@ public class PhoneAuthActivity extends AppCompatActivity {
                 if(task.isComplete()){
                     FirebaseUser user = task.getResult().getUser();
                     String userId = user.getUid();
+                    Intent intent = new Intent(PhoneAuthActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
