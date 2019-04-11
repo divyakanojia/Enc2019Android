@@ -97,7 +97,8 @@
         <activity android:name=".ui.AllCustomersActivity" />
         <activity android:name=".ui.RegistrationActivity" />
         <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".NotificationActivity" />
+        <activity android:name=".ui.PhoneAuthActivity"></activity>
     </application>
 
 </manifest>

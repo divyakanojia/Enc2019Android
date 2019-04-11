@@ -48,6 +48,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         btnRegister = findViewById(R.id.buttonRegister);
         txtLogin = findViewById(R.id.textViewLogin);
 
+        //eTxtName.setVisibility(View.INVISIBLE);
+        //eTxtName.setVisibility(View.VISIBLE);
+
         btnRegister.setOnClickListener(this);
         txtLogin.setOnClickListener(this);
 
