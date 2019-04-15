@@ -21,7 +21,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="titleRegister">Welcome, Kindly Register Here</string>
-    <string name="emailHint">Enter Your Email</string>
-    <string name="btnRegister">Register</string>
+    <string name="titleRegister">Bienvenue, veuillez vous inscrire ici</string>
+    <string name="emailHint">Entrer votre Email</string>
+    <string name="btnRegister">registre</string>
 </resources>

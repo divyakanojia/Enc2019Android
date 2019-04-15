@@ -44,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
 
             if(msg.what == 101){
-                Intent intent = new Intent(SplashActivity.this, NotificationActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LocaleDemoActivity.class);
                 startActivity(intent);
                 finish();
             }

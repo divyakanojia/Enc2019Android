@@ -98,7 +98,9 @@
         <activity android:name=".ui.RegistrationActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".NotificationActivity" />
-        <activity android:name=".ui.PhoneAuthActivity"></activity>
+        <activity android:name=".ui.PhoneAuthActivity" />
+        <activity android:name=".LocaleDemoActivity" />
+        <activity android:name=".MyLocationActivityTwo"></activity>
     </application>
 
 </manifest>
