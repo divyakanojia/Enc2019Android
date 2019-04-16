@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -40,6 +43,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     FirebaseUser firebaseUser;
 
+    // For FirebaseCloudMessaging
+    FirebaseMessaging firebaseMessaging;
+    FirebaseInstanceId firebaseInstanceId;
 
     void initViews(){
         eTxtName = findViewById(R.id.editTextName);
@@ -62,6 +68,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        firebaseMessaging = FirebaseMessaging.getInstance();
+        firebaseInstanceId = FirebaseInstanceId.getInstance();
     }
 
     @Override
@@ -94,6 +103,31 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    void subscribeUserForCloudMessaging(){
+        firebaseMessaging.subscribeToTopic("events")
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            getToken();
+                        }
+                    }
+                });
+    }
+
+    void getToken(){
+        firebaseInstanceId.getInstanceId()
+                .addOnCompleteListener(this, new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if(task.isComplete()){
+                            user.token = task.getResult().getToken();
+                            saveUserInCloudDB();
+                        }
+                    }
+                });
+    }
+
     void registerUser(){
 
         progressDialog.show();
@@ -110,9 +144,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             startActivity(intent);
                             finish();*/
 
+                            //saveUserInCloudDB();
 
-
-                            saveUserInCloudDB();
+                            subscribeUserForCloudMessaging();
 
                         }
                     }
