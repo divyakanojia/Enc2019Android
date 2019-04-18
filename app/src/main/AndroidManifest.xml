@@ -117,6 +117,21 @@
         <activity android:name=".ui.PhoneAuthActivity" />
         <activity android:name=".LocaleDemoActivity" />
         <activity android:name=".MyLocationActivityTwo"></activity>
+
+
+        <activity
+            android:name=".storage.ImageUploadActivity"
+            android:launchMode="singleTask">
+        </activity>
+
+        <service
+            android:name=".storage.MyDownloadService"
+            android:exported="false"/>
+
+        <service
+            android:name=".storage.MyUploadService"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
