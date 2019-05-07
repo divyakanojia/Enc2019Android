@@ -55,3 +55,28 @@ exports.fetchUser = functions.https.onRequest((request, response) => {
 	});
 
 });
+
+exports.addUser = functions.https.onRequest((request, response) => {
+
+	const uname = request.query.name;
+	const uphone = request.query.phone;
+	const uemail = request.query.email;
+
+	var db = admin.firestore();
+
+	var addDoc = db.collection('myusers').add({
+	   name: uname,
+	   phone: uphone,
+	   email: uemail
+	}).then(ref => {
+	   response.send(uname+" added in database");
+  	   return;
+	});
+
+});
+
+exports.sendCloudMessage = functions.https.onRequest((request, response) => {
+
+	// FCM : Explore
+
+});
